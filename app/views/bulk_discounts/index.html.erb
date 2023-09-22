@@ -1,0 +1,7 @@
+<%= render partial: "shared/nav" %>
+
+<section id="all_discounts"> 
+  <% @merchant.bulk_discounts.each do |discount| %> 
+    <li>Discount: <%= discount.name %></li>
+  <% end %> 
+</section>
