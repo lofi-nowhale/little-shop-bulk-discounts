@@ -11,10 +11,19 @@ RSpec.describe "bulk_discounts index page", type: :feature do
 
   it "can show a list of all available discounts for this merchant" do 
     visit "/merchants/#{@m1.id}/bulk_discounts"
+
     within "#all_discounts" do 
       expect(page).to have_content("Discount: Autumn Leaves")
+      expect(page).to have_content("Percentage: 20%")
+      expect(page).to have_content("Minimum Items: 10")
+      
       expect(page).to have_content("Discount: Winter Break")
+      expect(page).to have_content("Percentage: 10%")
+      expect(page).to have_content("Minimum Items: 20")
+      
       expect(page).to have_content("Discount: Summer Vacay")
+      expect(page).to have_content("Percentage: 15%")
+      expect(page).to have_content("Minimum Items: 15")
     end
 
   end

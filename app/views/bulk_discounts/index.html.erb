@@ -2,6 +2,7 @@
 
 <section id="all_discounts"> 
   <% @merchant.bulk_discounts.each do |discount| %> 
-    <li>Discount: <%= discount.name %></li>
+    <p><strong>Discount: </strong><%= discount.name %></p>
+    <li><strong>Percentage: </strong><%= "#{discount.percentage}%" %> | <strong> Minimum Items: </strong><%= discount.threshold %></li>
   <% end %> 
 </section>

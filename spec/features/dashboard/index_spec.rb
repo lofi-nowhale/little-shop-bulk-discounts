@@ -40,6 +40,10 @@ RSpec.describe "merchant dashboard" do
     @transaction6 = Transaction.create!(credit_card_number: 879799, result: 1, invoice_id: @invoice_7.id)
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_2.id)
 
+    @discount1 = BulkDiscount.create!(name: "Autumn Leaves", percentage: 20, threshold: 10, merchant_id: @merchant1.id)
+    @discount2 = BulkDiscount.create!(name: "Winter Break", percentage: 10, threshold: 20, merchant_id: @merchant1.id)
+    @discount2 = BulkDiscount.create!(name: "Summer Vacay", percentage: 15, threshold: 15, merchant_id: @merchant1.id)
+
     visit merchant_dashboard_index_path(@merchant1)
   end
 
@@ -61,6 +65,14 @@ RSpec.describe "merchant dashboard" do
     click_link "Invoices"
 
     expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices")
+  end
+
+  it "can see a link to my merchant bulk discounts" do 
+    expect(page).to have_link("Bulk Discounts")
+
+    click_link "Bulk Discounts"
+
+    expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
   end
 
   it "shows the names of the top 5 customers with successful transactions" do
