@@ -10,16 +10,29 @@ describe "Merchant Bulk Discount New" do
   end
   
   it "should be able to fill in a form and create a new discount" do
-    visit "/merchants/#{@merchant.id}/bulk_discounts/new"
+    visit "/merchants/#{@m1.id}/bulk_discounts/new"
 
     fill_in :name, with: "Spring Break"
-    fill_in :percentage, with: "10"
+    fill_in :percentage, with: 10
+    fill_in :threshold, with: 5
+
+    click_button "Submit"
+
+    expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts")
+    expect(page).to have_content("Spring Break")
+    expect(page).to have_content("Bulk Discount Has Been Created!")
+  end
+
+  it "should be able to flash an error message if the form has missing fields upon submission" do
+    visit "/merchants/#{@m1.id}/bulk_discounts/new"
+
+    fill_in :name, with: "Spring Break"
+
     fill_in :threshold, with: "5"
 
-    click_button
+    click_button "Submit"
 
-    expect(current_path).to eq("/merchants/#{@merchant.id}/bulk_discounts")
-    expect(page).to have_content("Spring Break")
-    expect(page).to have_content("Merchant Has Been Created!")
+    expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/new")
+    expect(page).to have_content("WARNING: DISCOUNT HAS NOT BEEN CREATED! PLEASE FILL OUT ALL FIELDS AND RE-SUBMIT!")
   end
 end
