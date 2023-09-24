@@ -1,8 +1,8 @@
-<%= render partial: "shared/nav" %>
-
-<section id="all_discounts"> 
-  <% @merchant.bulk_discounts.each do |discount| %> 
-    <p><strong>Discount: </strong><%= discount.name %></p>
-    <li><strong>Percentage: </strong><%= "#{discount.percentage}%" %> | <strong> Minimum Items: </strong><%= discount.threshold %></li>
-  <% end %> 
-</section>
+<section id="all_discounts">
+  <% @merchant.bulk_discounts.each do |discount| %>
+    <section id="discount-<%= discount.id %>">
+      <p>Discount: <%= link_to "#{discount.name}", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}" %></p>
+      <li><%= "Percentage: #{discount.percentage}% | Minimum Items: #{discount.threshold}"  %></li>
+    </section>
+  <% end %>
+</section> 

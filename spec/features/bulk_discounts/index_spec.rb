@@ -4,9 +4,10 @@ RSpec.describe "bulk_discounts index page", type: :feature do
   before(:each) do 
     @m1 = Merchant.create!(name: "Gimli's Toy Bin")
 
-    @discount1 = BulkDiscount.create!(name: "Autumn Leaves", percentage: 20, threshold: 10, merchant_id: @m1.id)
-    @discount2 = BulkDiscount.create!(name: "Winter Break", percentage: 10, threshold: 20, merchant_id: @m1.id)
-    @discount2 = BulkDiscount.create!(name: "Summer Vacay", percentage: 15, threshold: 15, merchant_id: @m1.id)
+    @discount1 = @m1.bulk_discounts.create!(name: "Autumn Leaves", percentage: 20, threshold: 10)
+    @discount2 = @m1.bulk_discounts.create!(name: "Winter Break", percentage: 10, threshold: 20)
+    @discount3 = @m1.bulk_discounts.create!(name: "Summer Vacay", percentage: 15, threshold: 15)
+
   end
 
   it "can show a list of all available discounts for this merchant" do 
@@ -25,6 +26,37 @@ RSpec.describe "bulk_discounts index page", type: :feature do
       expect(page).to have_content("Percentage: 15%")
       expect(page).to have_content("Minimum Items: 15")
     end
+  end
 
+  it "has each discount name as a link to that discounts show page" do 
+    visit "/merchants/#{@m1.id}/bulk_discounts"
+
+    within "#discount-#{@discount1.id}" do 
+      expect(page).to have_link("Autumn Leaves")
+
+      click_link "Autumn Leaves"
+
+    end
+    expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}")
+    
+    visit "/merchants/#{@m1.id}/bulk_discounts"
+
+    within "#discount-#{@discount2.id}" do 
+      expect(page).to have_link("Winter Break")
+
+      click_link "Winter Break"
+
+    end
+    expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount2.id}")
+
+    visit "/merchants/#{@m1.id}/bulk_discounts"
+
+    within "#discount-#{@discount3.id}" do 
+      expect(page).to have_link("Summer Vacay")
+
+      click_link "Summer Vacay"
+      
+      expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount3.id}")
+    end
   end
 end
