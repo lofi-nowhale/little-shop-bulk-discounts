@@ -48,7 +48,6 @@ RSpec.describe "bulk_discounts index page", type: :feature do
 
     end
     expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount2.id}")
-
     visit merchant_bulk_discounts_path(@m1)
 
     within "#discount-#{@discount3.id}" do 

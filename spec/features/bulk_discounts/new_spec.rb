@@ -10,7 +10,7 @@ describe "Merchant Bulk Discount New" do
   end
   
   it "should be able to fill in a form and create a new discount" do
-    visit new_merchant_bulk_discounts_path
+    visit "/merchants/#{@merchant.id}/bulk_discounts/new"
 
     fill_in :name, with: "Spring Break"
     fill_in :percentage, with: "10"
@@ -18,7 +18,7 @@ describe "Merchant Bulk Discount New" do
 
     click_button
 
-    expect(current_path).to eq(merchant_bulk_discounts_path)
+    expect(current_path).to eq("/merchants/#{@merchant.id}/bulk_discounts")
     expect(page).to have_content("Spring Break")
     expect(page).to have_content("Merchant Has Been Created!")
   end
