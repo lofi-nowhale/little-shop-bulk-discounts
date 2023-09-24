@@ -11,7 +11,7 @@ RSpec.describe "bulk_discounts index page", type: :feature do
   end
 
   it "can show a list of all available discounts for this merchant" do 
-    visit "/merchants/#{@m1.id}/bulk_discounts"
+    visit merchant_bulk_discounts_path(@m1)
 
     within "#all_discounts" do 
       expect(page).to have_content("Discount: Autumn Leaves")
@@ -29,7 +29,7 @@ RSpec.describe "bulk_discounts index page", type: :feature do
   end
 
   it "has each discount name as a link to that discounts show page" do 
-    visit "/merchants/#{@m1.id}/bulk_discounts"
+    visit merchant_bulk_discounts_path(@m1)
 
     within "#discount-#{@discount1.id}" do 
       expect(page).to have_link("Autumn Leaves")
@@ -39,7 +39,7 @@ RSpec.describe "bulk_discounts index page", type: :feature do
     end
     expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}")
     
-    visit "/merchants/#{@m1.id}/bulk_discounts"
+    visit merchant_bulk_discounts_path(@m1)
 
     within "#discount-#{@discount2.id}" do 
       expect(page).to have_link("Winter Break")
@@ -48,8 +48,7 @@ RSpec.describe "bulk_discounts index page", type: :feature do
 
     end
     expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount2.id}")
-
-    visit "/merchants/#{@m1.id}/bulk_discounts"
+    visit merchant_bulk_discounts_path(@m1)
 
     within "#discount-#{@discount3.id}" do 
       expect(page).to have_link("Summer Vacay")
@@ -57,6 +56,18 @@ RSpec.describe "bulk_discounts index page", type: :feature do
       click_link "Summer Vacay"
       
       expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount3.id}")
+    end
+  end
+
+  it "has a link to to create a new bulk discount - this link should direct to a form to create a new discount" do 
+    visit merchant_bulk_discounts_path(@m1)
+
+    within "#all_discounts" do 
+      expect(page).to have_link("Add New Discount")
+
+      click_link "Add New Discount"
+
+      expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/new")
     end
   end
 end
