@@ -70,4 +70,53 @@ RSpec.describe "bulk_discounts index page", type: :feature do
       expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/new")
     end
   end
+
+  describe "delete a bulk discount" do 
+    before :each do 
+      @m1 = Merchant.create!(name: "Gimli's Toy Bin")
+
+      @discount1 = @m1.bulk_discounts.create!(name: "Autumn Leaves", percentage: 20, threshold: 10)
+      @discount2 = @m1.bulk_discounts.create!(name: "Winter Break", percentage: 10, threshold: 20)
+      @discount3 = @m1.bulk_discounts.create!(name: "Summer Vacay", percentage: 15, threshold: 15)
+    end 
+
+    it "shows a delete button for each bulk discount" do 
+      visit merchant_bulk_discounts_path(@m1)
+
+      within "#discount-#{@discount1.id}" do 
+        expect(page).to have_button("Delete Autumn Leaves")
+
+        click_button "Delete Autumn Leaves"
+
+      end
+      expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts")
+      expect(page).to_not have_content("Autumn Leaves")
+
+    
+      visit merchant_bulk_discounts_path(@m1)
+
+      within "#discount-#{@discount2.id}" do 
+        expect(page).to have_button("Delete Winter Break")
+
+        click_button "Delete Winter Break"
+
+      end
+      expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts")
+      expect(page).to_not have_content("Winter Break")
+
+
+      visit merchant_bulk_discounts_path(@m1)
+
+      within "#discount-#{@discount3.id}" do 
+        expect(page).to have_button("Delete Summer Vacay")
+
+        click_button "Delete Summer Vacay"
+        
+        
+      end
+      expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts")
+      expect(page).to_not have_content("Summer Vacay")
+
+    end
+  end
 end
