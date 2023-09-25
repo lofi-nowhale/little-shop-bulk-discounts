@@ -1,2 +1,7 @@
-<h1><%= @discount.name</h1>
+<h1><%= @discount.name %></h1>
 
+<section id="details" >
+  <li><%= "Name: #{@discount.name}" %></li>
+  <li><%= "Percentage: #{@discount.percentage}%" %></li>
+  <li><%= "Threshold: #{@discount.threshold} Items" %></li>
+</section>
