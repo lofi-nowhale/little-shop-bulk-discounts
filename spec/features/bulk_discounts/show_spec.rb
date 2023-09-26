@@ -12,9 +12,19 @@ RSpec.describe "bulk discounts" do
     visit "/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}"
 
     within "#details" do 
-       expect(page).to have_content("Name: Autumn Leaves")
+      expect(page).to have_content("Name: Autumn Leaves")
       expect(page).to have_content("Percentage: 20%")
-       expect(page).to have_content("Threshold: 10 Items")
+      expect(page).to have_content("Threshold: 10 Items")
     end
+  end
+
+  it "has a button to edit the bulk discount" do 
+    visit "/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}"
+
+    within "#edit" do 
+      expect(page).to have_button("Edit #{@discount1.name}")
+      click_button "Edit #{@discount1.name}"
+    end
+    expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}/edit")
   end
 end

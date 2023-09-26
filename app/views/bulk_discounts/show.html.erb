@@ -5,3 +5,7 @@
   <li><%= "Percentage: #{@discount.percentage}%" %></li>
   <li><%= "Threshold: #{@discount.threshold} Items" %></li>
 </section>
+
+<section id="edit">
+  <%= button_to "Edit #{@discount.name}", "/merchants/#{params[:merchant_id]}/bulk_discounts/#{@discount.id}/edit", method: :get %>
+</section> 
