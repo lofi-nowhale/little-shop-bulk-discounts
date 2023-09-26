@@ -8,17 +8,23 @@ RSpec.describe "bulk discounts" do
     @discount2 = @m1.bulk_discounts.create!(name: "Winter Break", percentage: 10, threshold: 20)
     @discount3 = @m1.bulk_discounts.create!(name: "Summer Vacay", percentage: 15, threshold: 15)
   end
-  describe "bulk discounts show page" do 
-    it "can show all the bulk_discount details" do 
-      # visit merchant_bulk_discounts_path(@discount1)
-      visit "/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}"
+  it "can show all the bulk_discount details" do 
+    visit "/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}"
 
-      within "#details" do 
-        expect(page).to have_content("Name: Autumn Leaves")
-        expect(page).to have_content("Percentage: 20%")
-        expect(page).to have_content("Threshold: 10 Items")
-      end
-
+    within "#details" do 
+      expect(page).to have_content("Name: Autumn Leaves")
+      expect(page).to have_content("Percentage: 20%")
+      expect(page).to have_content("Threshold: 10 Items")
     end
+  end
+
+  it "has a button to edit the bulk discount" do 
+    visit "/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}"
+
+    within "#edit" do 
+      expect(page).to have_button("Edit #{@discount1.name}")
+      click_button "Edit #{@discount1.name}"
+    end
+    expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}/edit")
   end
 end
