@@ -28,4 +28,19 @@ RSpec.describe "the bulk dicsount editor" do
     end
 
   end
+  it "can flash an error if the item hasn't been successfully created" do 
+    visit "/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}"
+
+    click_button "Edit Autumn Leaves"
+
+    fill_in "Name", with: 'Fall Festival'
+    fill_in "Percentage", with: ''
+    fill_in "Threshold", with: '30'
+    click_button "Update Discount"
+
+    expect(current_path).to eq("/merchants/#{@m1.id}/bulk_discounts/#{@discount1.id}/edit")
+
+    expect(page).to have_content("Error: All fields must be filled in to submit")
+
+  end
 end
