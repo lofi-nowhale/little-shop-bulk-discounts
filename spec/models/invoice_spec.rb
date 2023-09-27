@@ -35,7 +35,7 @@ RSpec.describe Invoice, type: :model do
 
       @discount1 = @merchant1.bulk_discounts.create!(name: "Autumn Leaves", percentage: 10, threshold: 10)
 
-      expect(@invoice1.discounted_revenue).to eq(127)
+      expect(@invoice_1.discounted_revenue).to eq(117.0)
 
     end
   end

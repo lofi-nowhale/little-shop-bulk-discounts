@@ -106,11 +106,7 @@ RSpec.describe "invoices show" do
   describe "discounted revenue" do 
     it "can show the discounted revenue for this invoice" do 
       visit merchant_invoice_path(@merchant1, @invoice_1)
-
-      within "#discounted_revenue" do 
-        expect(page).to have_content("Discounted Revenue: ")
-      end
+      expect(page).to have_content("Discounted Revenue: 57.6")
     end
   end
-
 end
